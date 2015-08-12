@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/.gitignore" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/app.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/app.jsx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/components/Footer.react.jsx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/components/Header.react.jsx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/components/Landing.react.jsx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/components/layout.jsx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/scripts/router.jsx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gulpfile.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/package.json" charset="UTF-8" />
+  </component>
+</project>
