@@ -38,7 +38,7 @@ Blog = React.createClass({
                     <article className="post-wrapper sinlge-post">
                       <div className="post post-style-3">
                         <div className="post-perview">
-                          <img src={this.state.blogs.blog.image} alt="Cakes" />
+                          <img src={this.state.blogs.blog.image} />
                           <span className="cover"></span>
                         </div>
                         <div className="post-contents">

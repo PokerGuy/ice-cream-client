@@ -22,7 +22,7 @@ var Header = React.createClass({
       componentDidMount: function () {
         this.session = SessionStore.getSession();
         this.blogs = BlogStore.getTitles();
-        this.flavorList = FlavorStore.fetchList();
+        //this.flavorList = FlavorStore.fetchList();
       },
 
       render: function () {
@@ -36,9 +36,9 @@ var Header = React.createClass({
         } else {
           login = <LogIn/>
         }
-        var order = " ";
+        var order = <li><Link to="flavors">Our Flavors</Link></li>;
         if (this.state.flavorList.length > 0) {
-          order = <li><Link to="order">Order Now</Link></li>;
+          order = <li><Link to="order">Order Now<i className="fa fa-angle-down"></i></Link><ul className="dropdown"><li><Link to="flavors">Our Flavors</Link></li></ul></li>;
         }
         return (
           <header className="header header-5" id="header">

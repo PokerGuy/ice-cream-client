@@ -63,10 +63,11 @@ Table = React.createClass({
           </thead>
           <tbody>
 {this.props.data.map(function (order, i) {
+  var phone = "(" + order.order.phone_number.substring(0,3) + ")" + order.order.phone_number.substring(3,6) + "-" + order.order.phone_number.substring(6,10);
   return (
     <tr key={i}>
       <td>{order.order.name}</td>
-      <td>{order.order.phone_number}</td>
+      <td>{phone}</td>
       <td>{timeago(order.order.created_at)}</td>
       <td key={i}>
       {order.order.line_items.map(function (li, index) {

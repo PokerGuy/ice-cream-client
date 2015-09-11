@@ -2,6 +2,7 @@ var React = require('react');
 var Router = require('react-router');
 var Route = Router.Route;
 var DefaultRoute = Router.DefaultRoute;
+//components
 var Layout = require('./components/layout.jsx');
 var Home = require('./components/Landing.react.jsx');
 var OrderPage = require('./components/Order.jsx');
@@ -13,6 +14,8 @@ var LogIn = require('./components/LogIn.jsx');
 var PaidOrders = require('./components/PaidOrders.jsx');
 var FlavorMaintenance = require('./components/FlavorMaintenance.jsx');
 var Blog = require('./components/Blog.jsx');
+var OurFlavors = require('./components/OurFlavors.jsx');
+var Selected = require('./components/Selected.jsx');
 
 var routes = (
   <Route name="layout" path="/" handler={Layout}>
@@ -26,12 +29,14 @@ var routes = (
     <Route name="paid-orders" path="/paid" handler={PaidOrders} />
     <Route name="flavor-maintenance" path="/flavor-maintenance" handler={FlavorMaintenance} />
     <Route name="blog" path="/blog/:blogId" handler={Blog} />
+    <Route name="flavors" path="/flavors" handler={OurFlavors} />
+    <Route name="selected" path="/selected/:flavorId" handler={Selected} />
   </Route>
 );
 
 exports.start = function () {
 
   Router.run(routes, function (Handler) {
-    React.render(<Handler />, document.getElementById('application'));
+    React.render(<Handler />, document.body);
   });
-}
+};

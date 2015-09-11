@@ -7,20 +7,26 @@ var _ = require('underscore');
 var OrderStore = Reflux.createStore({
   listenables: [OrderActions],
   order: null,
-/*  total: 0,
-  errors: [], */
+  /*  total: 0,
+   errors: [], */
 
-  getInitialState: function () {
-    this.createOrder();
-    return this.order;
-  },
-  createOrder: function () {
-    this.order = {status: "draft", total: 0, errors: [], lineItems: [{id: 1, flavorId: 0, flavorName: "", qty: 1, price: 0}]};
+  /*getInitialState: function () {
+   this.createOrder();
+   return this.order;
+   }, */
+  createOrder: function (flavorId) {
+    this.order = {
+      status: "draft",
+      total: 0,
+      errors: [],
+      lineItems: [{id: 1, flavorId: flavorId, flavorName: "", qty: 1, price: 0}]
+    };
+    this.trigger(this.order);
   },
   pickFlavor: function (lineItemId, flavor) {
     var lineItem = _.find(this.order.lineItems, function (item) {
       return item.id === lineItemId
-    })
+    });
     if (lineItem) {
       var components = flavor.split(":");
       lineItem.flavorId = components[0];
@@ -93,12 +99,20 @@ var OrderStore = Reflux.createStore({
   complete: function (nonce) {
     OrderStore.order.errors = [];
     var orderLineItems = [];
-    for (i=0; i < OrderStore.order.lineItems.length; i++) {
-      orderLineItems.push({flavor_id: OrderStore.order.lineItems[i].flavorId, quantity: OrderStore.order.lineItems[i].qty});
+    for (i = 0; i < OrderStore.order.lineItems.length; i++) {
+      orderLineItems.push({
+        flavor_id: OrderStore.order.lineItems[i].flavorId,
+        quantity: OrderStore.order.lineItems[i].qty
+      });
     }
     request.post(Constants.APIEndpoints.ORDER)
       .send({
-        order: {name: OrderStore.order.name, phone_number: OrderStore.order.phone, nonce: nonce, order_line_items_attributes: orderLineItems}
+        order: {
+          name: OrderStore.order.name,
+          phone_number: OrderStore.order.phone,
+          nonce: nonce,
+          order_line_items_attributes: orderLineItems
+        }
       }
     )
       .set('Accept', 'application/json')
@@ -114,6 +128,18 @@ var OrderStore = Reflux.createStore({
           }
         }
       })
+  },
+
+  preSelected: function(id, price, name) {
+    var lineItem = _.find(this.order.lineItems, function (item) {
+      return item.id === id
+    });
+    if (lineItem) {
+      lineItem.price = price;
+      lineItem.name = name;
+      this.updateTotal();
+      this.trigger(this.order);
+    }
   }
 });
 

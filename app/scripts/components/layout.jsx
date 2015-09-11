@@ -6,16 +6,15 @@ var Footer = require('./Footer.react.jsx');
 
 var Layout = React.createClass({
 
-  render: function() {
-
-    return (
-      <div className="App">
-        <Header />
-        <RouteHandler />
-        <Footer />
-      </div>
-    );
-  }
-});
+    render: function () {
+      return (
+        <div className="App">
+          <Header />
+          <RouteHandler />
+          <Footer />
+        </div>
+      );
+    }
+  });
 
 module.exports = Layout;

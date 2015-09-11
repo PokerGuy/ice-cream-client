@@ -7,7 +7,8 @@ var FlavorActions = Reflux.createActions([
   'adminList',
   'createFlavor',
   'updateFlavor',
-  'adminListenToFlavors'
+  'adminListenToFlavors',
+  'allFlavors'
 ]);
 
 module.exports = FlavorActions;

@@ -60,6 +60,8 @@ FlavorForm = React.createClass({
   componentDidMount: function () {
     this.setState({flavorCount: this.props.data.length});
     FlavorStore.adminListenToFlavors();
+    $('#description').summernote({height: 100});
+    $('#ingredients').summernote({height: 100});
   },
 
   componentWillUnmount: function () {
@@ -104,7 +106,9 @@ FlavorForm = React.createClass({
     var name = this.refs.name.getDOMNode().value;
     var qty = this.refs.qty.getDOMNode().value;
     var price = this.refs.price.getDOMNode().value;
-    FlavorStore.createFlavor(name, qty, price);
+    var description = $('#description').code();
+    var ingredients = $('#ingredients').code();
+    FlavorStore.createFlavor(name, qty, price, description, ingredients);
   },
 
   changeName: function (e) {
@@ -157,7 +161,7 @@ FlavorForm = React.createClass({
         <br/>
         <br/>
 
-        <div className="modal fade" id="newFlavor" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div className="modal fade bigModal" id="newFlavor" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
@@ -192,6 +196,30 @@ FlavorForm = React.createClass({
                     <input type="text" name="price" id="price" ref="price" value={this.state.price} onChange={this.changePrice}/>
                   </li>
                 </ul>
+                <ul className="row">
+                  <li>
+                    <label htmlFor="description">
+                    Description:
+                    </label>
+                  </li>
+                </ul>
+                <ul className="row">
+                  <li>
+                    <div id="description"></div>
+                  </li>
+                </ul>
+                <ul className="row">
+                  <li>
+                    <label htmlFor="description">
+                    Ingredients:
+                    </label>
+                  </li>
+                </ul>
+                <ul className="row">
+                  <li>
+                    <div id="ingredients"></div>
+                  </li>
+                </ul>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -213,10 +241,16 @@ FlavorRow = React.createClass({
       btnText: "Update",
       btnStyle: "btn btn-success",
       disabled: false,
-      show: false,
+      show: true,
       name: "",
       qty: 0
     })
+  },
+
+  componentDidMount: function () {
+    console.log(this.props.flavor);
+    $('#desc' + this.props.flavor.id).summernote().code(this.props.flavor.description);
+    $('#ing' + this.props.flavor.id).summernote().code(this.props.flavor.ingredients);
   },
 
   componentWillReceiveProps: function (nextprops) {
@@ -225,7 +259,7 @@ FlavorRow = React.createClass({
         this.setState({
           name: nextprops.flavor.name
         });
-        if (nextprops.flavor.stock_quantity) {
+        if (nextprops.flavor.stock_quantity >= 0) {
           this.setState({
             qty: nextprops.flavor.stock_quantity
           })
@@ -234,7 +268,7 @@ FlavorRow = React.createClass({
       if (this.state.name != "") {
         $.growl({
           title: this.state.name,
-          message: "Modified by another user.",
+          message: "Modified by another user or order.",
           style: "notice",
           size: "large",
           location: "tc"
@@ -244,15 +278,7 @@ FlavorRow = React.createClass({
   },
 
   update: function () {
-    FlavorStore.updateFlavor(this.state.id, this.refs.name.getDOMNode().value, this.refs.qty.getDOMNode().value);
-  },
-
-  showButton: function () {
-    this.setState({show: true});
-  },
-
-  hideButton: function () {
-    this.setState({show: false});
+    FlavorStore.updateFlavor(this.state.id, this.refs.name.getDOMNode().value, this.refs.qty.getDOMNode().value, $('#desc' + this.state.id).summernote().code(), $('#ing' + this.state.id).summernote().code());
   },
 
   changeName: function (e) {
@@ -265,24 +291,52 @@ FlavorRow = React.createClass({
 
   render: function () {
     var button = <div></div>;
+    var desc = "desc" + this.props.flavor.id;
+    var ing = "ing" + this.props.flavor.id;
     if (this.state.show) {
       button = <button className={this.state.btnStyle} disabled={this.state.disabled} onMouseDown={this.update}>{this.state.btnText}</button>;
     }
     return (
-      <ul className="row">
-        <div className="col-md-6 form-item">
-          <input type="text" ref="name" value={this.state.name} onChange={this.changeName} onFocus={this.showButton} onBlur={this.hideButton}/>
-        </div>
-        <div className="col-md-2 form-item">
+      <div className="box">
+        <ul className="row">
+          <div className="col-md-6 form-item">
+            <input type="text" ref="name" value={this.state.name} onChange={this.changeName}/>
+          </div>
+          <div className="col-md-2 form-item">
       {numeral(this.props.flavor.price).format('$0,0.00')}
-        </div>
-        <div className="col-md-2 form-item">
-          <input type="text" value={this.state.qty} onChange={this.changeQty} ref="qty" onFocus={this.showButton} onBlur={this.hideButton}/>
-        </div>
-        <div className="col-md-2 form-item">
+          </div>
+          <div className="col-md-2 form-item">
+            <input type="text" value={this.state.qty} onChange={this.changeQty} ref="qty" />
+          </div>
+          <div className="col-md-2 form-item">
         {button}
-        </div>
-      </ul>
+          </div>
+        </ul>
+        <ul className="row">
+          <div className="col-md-12 form-item">
+            <label htmlFor="desc">
+            Description:
+            </label>
+          </div>
+        </ul>
+        <br/>
+        <br/>
+        <ul className="row">
+          <div className="col-md-12 form-item" id={desc}></div>
+        </ul>
+        <ul className="row">
+          <div className="col-md-12 form-item">
+            <label htmlFor="ing">
+            Ingredients:
+            </label>
+          </div>
+        </ul>
+        <br/>
+        <br/>
+        <ul className="row">
+          <div className="col-md-12 form-item" id={ing}></div>
+        </ul>
+      </div>
     )
   }
 });

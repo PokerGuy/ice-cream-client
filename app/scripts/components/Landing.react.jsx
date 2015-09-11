@@ -55,37 +55,17 @@ var LandingPage = React.createClass({
               </div>
             </div>
             <div className="slide" id="slide-2">
+              <img src="dist/images/first.jpg" alt="slider image" className="img-slider" />
+              <div className="cover"></div>
+              <div className="captions">
+                <h2 className="animated">Our first customers!</h2>
+              </div>
+            </div>
+            <div className="slide" id="slide-3">
               <img src="dist/images/zoe2.jpg" alt="slider image" className="img-slider" />
               <div className="cover"></div>
               <div className="captions">
                 <h2 className="animated">Over 3 Million Americans Are Living with Type I Diabetes</h2>
-              </div>
-            </div>
-            <div className="slide" id="slide-3">
-              <img src="dist/images/zoe3.jpg" alt="slider image" className="img-slider" />
-              <div className="cover"></div>
-              <div className="captions">
-                <h2 className="animated">The Juvenile Diabetes Research Fund is a Top Rated Charity</h2>
-              </div>
-            </div>
-            <div className="slide" id="slide-4">
-              <img src="dist/images/zoe4.jpg" alt="slider image" className="img-slider" />
-              <div className="cover"></div>
-              <div className="captions">
-                <h2 className="animated">Our kids are learning a valuable lesson about fund raising and charity.</h2>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section className="main-section light-section services" id="services">
-          <div className="section-wrapper">
-            <div className="container">
-              <div className="row">
-                <div className="service service-style-5">
-                  <div className="service-contents">
-                    {order}
-                  </div>
-                </div>
               </div>
             </div>
           </div>

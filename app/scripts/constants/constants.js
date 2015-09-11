@@ -1,5 +1,5 @@
-var APIRoot = "http://zoedoodle-prod.elasticbeanstalk.com/";
-//var APIRoot = "http://localhost:3002";
+//var APIRoot = "https://api.zoe-doodle.com/";
+var APIRoot = "http://localhost:3002";
 module.exports = {
   APIEndpoints: {
     FLAVORS: APIRoot + "/v1/flavors",
@@ -8,8 +8,10 @@ module.exports = {
     DONATION: APIRoot + "/v1/donation",
     LOGIN: APIRoot + "/v1/auth/sign_in",
     ADMIN_FLAVORS: APIRoot + "/v1/flavors_admin",
+    FLAVORS_ALL: APIRoot + "/v1/flavors_all",
     BLOG: APIRoot + "/v1/blog"
   },
-  Listener: {Root: "http://zoedoodle-prod.elasticbeanstalk.com:9000"}
-//  Listener: {Root: "http://localhost:9000"}
+// Listener: {Root: "http://api.zoe-doodle.com:9000"}
+  Listener: {Root: "http://localhost:9000"}
+  //GA_TRACKING_CODE: 'UA-UA-66105505-1'
 };

@@ -16,10 +16,24 @@ var _ = require('underscore');
 var OrderPage = React.createClass({
   mixins: [Reflux.connect(OrderStore, "order")],
 
+  getInitialState: function () {
+      return ({
+        order: {status: "draft", total: 0, errors: [], lineItems: [{id: 1, flavorId: 0, flavorName: "", qty: 1, price: 0}]},
+      })
+  },
+
+  componentDidMount: function() {
+    var flavorId = 0;
+    if (this.props.selected) {
+      flavorId = this.props.selected;
+    }
+    OrderStore.createOrder(flavorId);
+  },
+
   render: function () {
     var display;
     if (this.state.order.status === "draft") {
-      display = <OrderForm order={this.state.order}/>;
+      display = <OrderForm order={this.state.order} />;
     } else if (this.state.order.status === "new") {
       display = <Confirm order={this.state.order}/>;
     } else if (this.state.order.status === "paid") {
@@ -106,10 +120,10 @@ var OrderForm = React.createClass({
     {show}
         <ul className="row">
           <li className="col-md-6">
-          Total:
+          <strong>Total:</strong>
           </li>
           <li className="col-md-6 text-right">
-                        {numeral(this.props.order.total).format('$0,0.00')}
+                        <strong>{numeral(this.props.order.total).format('$0,0.00')}</strong>
           </li>
         </ul>
         <ul className = "row">
@@ -202,7 +216,7 @@ var Confirm = React.createClass({
     });
   },
 
-  componentWillReceiveProps: function(nextprops) {
+  componentWillReceiveProps: function (nextprops) {
     if (nextprops.order.errors.length > 0) {
       this.setState({btnStyle: "btn btn-success", disabled: false, btnText: "Complete"});
     }
@@ -288,7 +302,7 @@ var LineItemHeader = React.createClass({
   },
   render: function () {
     return (
-      <div>
+      <div className="box">
         <div className='panel panel-default'>
           <ul className='row'>
             <li className="col-md-12 form-item">
@@ -299,6 +313,10 @@ var LineItemHeader = React.createClass({
                   </button>
                 </div>
               </div>
+            </li>
+          </ul>
+          <ul className="row">
+            <li className="col-md-12 form-item">
               <div className="more-products">Ice Cream &#35; {this.props.count} </div>
             </li>
           </ul>
@@ -344,17 +362,33 @@ var ChooseQuantity = React.createClass({
 
   _updateQty: function () {
     OrderStore.updateQuantity(this.props.details.id, this.refs.qty.getDOMNode().value);
+    this.setState({subTotal: this.refs.qty.getDOMNode().value * this.state.flavorDetails.price});
   },
 
+  getInitialState: function() {
+    return({
+      flavorDetails: {},
+      subTotal: 0
+    })
+  },
+
+  componentDidMount: function() {
+    var searchFlav = parseInt(this.props.details.flavorId);
+    var details = _.find(FlavorStore.flavorList, function (flavor) {
+      return flavor.id == searchFlav
+    });
+    this.setState({flavorDetails: details});
+    if (this.props.details.price != details.price) {
+      OrderStore.preSelected(this.props.details.id, details.price, details.name);
+    }
+    this.setState({subTotal: details.price});
+  },
   render: function () {
     var details = this.props.details;
-    var flavorDetails = _.find(FlavorStore.flavorList, function (flavor) {
-      return flavor.id == details.flavorId
-    });
     var warning;
-    if (this.props.details.qty > flavorDetails.stock_quantity && flavorDetails.stock_quantity > 0) {
-      warning = <QtyError />;
-    } else if (flavorDetails.stock_quantity == 0) {
+    if (this.props.details.qty > this.state.flavorDetails.stock_quantity && this.state.flavorDetails.stock_quantity > 0) {
+      warning = <QtyError attempted={this.props.details.qty} available={this.state.flavorDetails.stock_quantity} name={this.state.flavorDetails.name} />;
+    } else if (this.state.flavorDetails.stock_quantity == 0) {
       warning = <OutOfStockError/>
     } else {
       warning = <div></div>;
@@ -362,8 +396,32 @@ var ChooseQuantity = React.createClass({
     return (
       <div>
         <div className='text-center'>
-          <h2>{flavorDetails.name}</h2>
+          <h2>{this.state.flavorDetails.name}</h2>
         </div>
+        <ul clasName='row'>
+          <div className='col-md-12 form-item' dangerouslySetInnerHTML={{__html: this.state.flavorDetails.description}} />
+        </ul>
+        <ul className='row'>
+          <div className='col-md-12 form-item'>
+          &nbsp;
+          </div>
+        </ul>
+        <ul className='row'>
+          <div className='col-md-12 form-item'>
+            <div className="panel panel-default">
+              <div className="panel-heading">
+                <h4 className="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#ingredients">Ingredients (click here to display)</a>
+                </h4>
+              </div>
+              <div id="ingredients" className="panel-collapse collapse">
+                <div className="panel-body">
+                  <div className='col-md-12 form-item' dangerouslySetInnerHTML={{__html: this.state.flavorDetails.ingredients}} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </ul>
         <div>
         {warning}
         </div>
@@ -380,7 +438,7 @@ var ChooseQuantity = React.createClass({
             <label htmlFor='availQty'>Available Quantity:</label>
           </li>
           <li className='col-md-6 form-item'>
-            <div id='availQty' className='text-right'>{flavorDetails.stock_quantity}</div>
+            <div id='availQty' className='text-right'>{this.state.flavorDetails.stock_quantity}</div>
           </li>
         </ul>
         <ul className='row'>
@@ -388,7 +446,7 @@ var ChooseQuantity = React.createClass({
             <label htmlFor='price'>Unit Price:</label>
           </li>
           <li className='col-md-6 form-item'>
-            <div id='price' className='text-right'>{numeral(flavorDetails.price).format('$0,0.00')}</div>
+            <div id='price' className='text-right'>{numeral(this.state.flavorDetails.price).format('$0,0.00')}</div>
           </li>
         </ul>
         <ul className='row'>
@@ -396,7 +454,7 @@ var ChooseQuantity = React.createClass({
             <label htmlFor='total'>Sub-Total:</label>
           </li>
           <li className='col-md-6 form-item'>
-            <div id='total' className='text-right'>{numeral((this.props.details.qty * this.props.details.price)).format('$0,0.00')}</div>
+            <div id='total' className='text-right'>{numeral(this.state.subTotal).format('$0,0.00')}</div>
           </li>
         </ul>
       </div>
@@ -413,7 +471,7 @@ QtyError = React.createClass({
         </div>
         <div className="alert-contents">
           <h6 className="alert-title">Warning</h6>
-          <p>The quantity you are attempting to order is greater than the quantity available.</p>
+          <p>You are attempting to order {this.props.attempted} pints of {this.props.name}. Only {this.props.available} pints are available.</p>
         </div>
       </div>
     )
@@ -429,7 +487,7 @@ OutOfStockError = React.createClass({
         </div>
         <div className="alert-contents">
           <h6 className="alert-title">Warning</h6>
-          <p>The ice cream flavor you are attempting to order is no longer in stock. Please check back again soon or pick another flavor.</p>
+          <p>Some rat bastard snuck in and ordered the last of this flavor before you got a chance to complete your order! Please check back again soon or pick another flavor.</p>
         </div>
       </div>
     )

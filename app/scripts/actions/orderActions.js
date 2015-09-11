@@ -10,7 +10,8 @@ var OrderActions = Reflux.createActions([
   'setPrice',
   'purchase',
   'cancel',
-  'complete'
+  'complete',
+  'preSelected'
 ]);
 
 module.exports = OrderActions;
