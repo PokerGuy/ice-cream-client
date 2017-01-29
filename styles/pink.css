@@ -1,0 +1,179 @@
+/* --------------------- 
+	Skinks styles 
+	--------------------- */
+/* --- Backgrounds  --------------------- */
+::-moz-selection {
+  background-color: #ff6b6b;
+}
+::-webkit-selection {
+  background-color: #ff6b6b;
+}
+::-o-selection {
+  background-color: #ff6b6b;
+}
+::-khtml-selection {
+  background-color: #ff6b6b;
+}
+::-ms-selection {
+  background-color: #ff6b6b;
+}
+::selection {
+  background-color: #ff6b6b;
+}
+.general-link,
+.dark.general-link:hover,
+.general-link.accent,
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+.general-btn:hover,
+.bordered:hover,
+.pink-section,
+.fancy-select select:focus + .trigger.open,
+.fancy-select select + .trigger:hover,
+.fancy-select .trigger.open,
+.fancy-select ul.options li.selected,
+.fancy-select ul.options li.hover,
+.header .top-social li a:hover,
+.custom-slider .owl-controls .owl-nav div:hover,
+.owl-carousel #progress-bar #bar,
+.owl-carousel .owl-controls .owl-nav div:hover,
+.carousel .owl-controls .owl-dots .owl-dot:hover,
+.carousel .owl-controls .owl-dots .owl-dot.active,
+.service-style-3,
+.service-style-4,
+.service-style-5 .service-icon,
+.service-style-6 .service-icon,
+.product .product-icon,
+.gallary .owl-controls .owl-nav div:hover,
+.testmonial .more,
+.team-member .team-member-contents .member-social li a:hover,
+.feature:hover .feature-icon,
+.pricing-table .pricing-top-section,
+.pricing-table .order,
+.pricing-table-style-2 .order:hover,
+.contact-box-body:hover .contact-icon,
+.footer-social li a:hover,
+.hanging .hanging-pin,
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination .active,
+.pagination > li:last-child a:hover,
+.pagination > li:first-child a:hover,
+.product-overview .product-icon,
+.product-overview .share li a:hover,
+.blockquote-style-1 blockquote:before,
+.blockquote-style-4 blockquote,
+.dropcaps-style-2,
+.hightlight,
+.icons-list li a,
+.colored-icons-list li a:hover,
+.alert .alert-icon i,
+.share li a,
+.switcher .switcher-show-hide,
+.switcher .switcherContents header,
+#responsive-menu-wrapper .responsive-main-nav-toggler.opened,
+#responsive-menu-wrapper .responsive-main-nav .nav-links > li a:hover,
+#responsive-menu-wrapper .responsive-main-nav .nav-links > li > button:hover,
+#responsive-menu-wrapper .responsive-main-nav .nav-links > li .toggle-responsive.activeLine,
+#responsive-menu-wrapper .responsive-main-nav .nav-links > li .active {
+  background-color: #ff6b6b;
+}
+/* fades */
+.service-style-1 .service-perview figcaption {
+  border-color: rgba(255, 107, 107, 0.5);
+}
+/* --- Bachground Images  --------------------- */
+.main-section .section-icon {
+  background-image: url('../../images/bg-section-icon-pink.png');
+}
+.header .logo-style-2 a {
+  background-image: url('../../images/logo-2-pink.png');
+}
+.header .logo-style-6 a {
+  background-image: url('../../images/star-pink.png');
+}
+.service-style-4:after {
+  background-image: url('../../images/bubblles-pink.png');
+}
+.more-products {
+  background-image: url('../../images/label-pink.png');
+}
+.pricing-table-style-2 .pricing-icon {
+  background-image: url('../../images/star-pink.png');
+}
+/* --- colors  --------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+.bordered,
+.header .top-contacts li a:hover,
+.header .main-nav .nav-links > li .dropdown li a:hover,
+.header .main-nav .nav-links > li .dropdown li .active,
+.header .main-nav .nav-links > li:hover a,
+.header .main-nav .nav-links > li .active,
+.slider-2 .slide .captions h2,
+.service-style-5 .more:hover,
+.service-style-6 .more:hover,
+.testmonial blockquote p,
+.testmonial blockquote cite .client-name:hover,
+.team-member-style-2 .team-member-contents h5,
+.team-member-style-2 .team-member-contents h5 a,
+.team-member-style-3 .team-member-contents h5,
+.team-member-style-3 .team-member-contents h5 a,
+.pricing-table .pricing-icon,
+.pricing-table-style-2 .price span,
+.contact-box .contact-details li,
+.footer p a:hover,
+.back-to-top:hover,
+.breadcrumb li,
+.breadcrumb li + li:before,
+.breadcrumb li a,
+.breadcrumb li.active,
+.blockquote cite,
+.blockquote-style-2 blockquote:before,
+.blockquote-style-2 blockquote:after,
+.list li:before,
+ol.list-style-8 li span,
+.erorr-404 .search button:hover,
+.categories ul li span,
+.tags a:hover,
+.comment .comment-contents .comment-title a:hover,
+.header .logo-style-1 a .top-icon,
+.header .logo-style-1 a .lolli,
+.header .logo-style-3 a .top-icon,
+.header .logo-style-3 a .lolli,
+.header .logo-style-4 a .lolli,
+.categories ul li a:hover {
+  color: #ff6b6b;
+}
+/* --- Borders  --------------------- */
+.bordered,
+.bordered:hover,
+.top-contacts li,
+.header-5 .top-contacts li:first-child,
+.header .top-contacts li,
+.header-5 .top-contacts li,
+.header-6 .top-contacts li,
+.style-6 .slider .owl-stage-outer,
+.owl-carousel .owl-controls .owl-nav div:hover,
+.carousel .owl-controls .owl-dots .owl-dot:hover,
+.carousel .owl-controls .owl-dots .owl-dot.active,
+.service-style-4 .more,
+.testmonial .more:after,
+.testmonial:hover .testmonial-thumb img,
+.team-member-style-3 .team-member-thumb figcaption,
+.team-member-style-3 .team-member-icon,
+.feature:hover .feature-icon,
+.pricing-table .pricing-icon:before,
+.pricing-table .order:after,
+.pricing-table-style-2 .order:hover:after,
+.alert .alert-icon,
+.header .logo-style-1 a:before,
+.header .logo-style-3 a:before {
+  border-color: #ff6b6b;
+}
